@@ -64,6 +64,11 @@ class RecaptchaTagLib {
 		out << recaptchaService.createCaptcha(session, props)
 	}
 
+    def recaptchaAjax = { attrs ->
+        def props = new Properties()
+        out << recaptchaService.createAjaxCaptcha(session, props)
+    }
+
     /**
      * Evaluates the content of the tag if ReCaptcha validation failed. This will allow
      * developers to display errors for ReCaptcha themes that do not display error messages

@@ -65,6 +65,35 @@ public class ReCaptcha {
     return message.toString()
   }
 
+  public String createAjaxRecaptchaHtml(String errorMessage, Map options) {
+    def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
+    //def qs = new QueryString([k:publicKey, error:errorMessage])
+
+    def message = new StringBuffer()
+    message << """<div id=\"ajax_recaptcha\"></div>
+       <script type=\"text/javascript\" src="${recaptchaServer}/js/recaptcha_ajax.js\"></script>
+       <script type=\"text/javascript\">
+       Recaptcha.create('${publicKey}', document.getElementById('ajax_recaptcha'));
+       </script>"""
+    /*if (options) {
+      message << "<script type=\"text/javascript\">\r\nvar RecaptchaOptions = {" +
+      options.collect { "$it.key:'${it.value}'" }.join(', ') +
+      "};\r\n</script>\r\n"
+    }*/
+
+    /*message << "<script type=\"text/javascript\" src=\"$recaptchaServer/challenge?${qs.toString()}\"></script>\r\n"
+
+    if (includeNoScript) {
+      message << """<noscript>
+      <iframe src=\"$recaptchaServer/noscript?${qs.toString()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
+      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
+      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
+      </noscript>"""
+    }*/
+
+    return message.toString()
+  }
+
   /**
    * Validates a reCaptcha challenge and response.
    *
